@@ -1,5 +1,5 @@
 dev-start:
-	export FLASK_APP="src.apps" && flask run --debug
+	export FLASK_APP="src.apps.__init__.py"  && python -m src.manage run --debug
 db-init:
 	export FLASK_APP="src.apps" && flask db init
 db-migrate:

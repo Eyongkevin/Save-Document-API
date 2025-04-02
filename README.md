@@ -3,6 +3,7 @@
 ## Objectives
 - Use git/github as version control
 - Use github action for cicd
+- Use the [Twelve Factor App](https://12factor.net)
 
 ### Backend API
 - Develop a RESTful API with Flask
@@ -15,8 +16,8 @@
 
 | Endpoint | HTTP Method | CRUD Method | Result |
 |----------|-------------|-------------|--------|
-| /user/login/ | POST    | CREATE      | login user |
-| /docs/create/ | POST    | CREATE      | save document|
-| /docs    | GET          | READ       | get all documents |
-| /docs/:public_id | GET  | READ      | get single document |
-| /docs/:public_id | DELETE  | DELETE      | delete single document |
+| `/user/login/` | POST    | CREATE      | login user |
+| `/docs/create/` | POST    | CREATE      | save document|
+| `/docs`    | GET          | READ       | get all documents |
+| `/docs/:public_id` | GET  | READ      | get single document |
+| `/docs/:public_id` | DELETE  | DELETE      | delete single document |
