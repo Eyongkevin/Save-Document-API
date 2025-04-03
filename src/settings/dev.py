@@ -1,3 +1,6 @@
+import os
+
 from src.settings.base import *
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
+TESTING = os.getenv("TESTING")

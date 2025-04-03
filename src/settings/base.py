@@ -1,2 +1,3 @@
-TESTING = False
-DEBUG = False
+from dotenv import load_dotenv
+
+load_dotenv()

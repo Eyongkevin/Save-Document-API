@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, jsonify
 
 from src.utils import BASE_DIR
@@ -16,4 +18,4 @@ app.config.from_pyfile("dev.py")
 # Testing
 @app.route("/users/ping")
 def ping_pong():
-    return jsonify({"status": "success", "message": "pong!"})
+    return jsonify({"status": "200 Ok", "message": "pong!"})
