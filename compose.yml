@@ -12,4 +12,25 @@ services:
       - "8000:5000"
     environment:
       - FLASK_APP=src/apps/__init__.py
+    depends_on:
+      - users-db 
+    links:
+      - users-db
+
+  users-db:
+    container_name: users-db 
+    env_file:
+      - .db.env
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+  adminer:
+    # image for a database server like PGAdmin
+    image: adminer
+    ports:
+      - 8081:8080
+    
+
     

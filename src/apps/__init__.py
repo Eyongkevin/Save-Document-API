@@ -1,7 +1,7 @@
-import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-from flask import Flask, jsonify
-
+from src.apps.user.views import user
 from src.utils import BASE_DIR
 
 app = Flask(
@@ -14,8 +14,10 @@ app = Flask(
 app.config.from_object(__name__)
 app.config.from_pyfile("dev.py")
 
+db = SQLAlchemy(app)
 
-# Testing
-@app.route("/users/ping")
-def ping_pong():
-    return jsonify({"status": "200 Ok", "message": "pong!"})
+app.register_blueprint(user)
+from src.apps.user import models
+
+with app.app_context():
+    db.create_all()

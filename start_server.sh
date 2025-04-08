@@ -1,5 +1,13 @@
 #!/bin/sh
 
+echo "Waiting for postgres...."
+
+while ! nc -z users-db 5432; do 
+  sleep 0.1
+done 
+
+echo "PostgreSQL started"
+
 _term() {
   echo "Caught SIGTERM signal! Sending graceful stop to uWSGI through the master-fifo"
   # See details in the uwsgi.ini file and
