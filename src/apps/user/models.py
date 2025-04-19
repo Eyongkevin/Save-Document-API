@@ -1,9 +1,12 @@
+from datetime import datetime
 from uuid import uuid4
 
-from sqlalchemy import UUID, Boolean, String
+import bcrypt
+from sqlalchemy import UUID, Boolean, DateTime, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.db import db
+from src.utils import generate_password_hash
 
 
 class User(db.Model):
@@ -21,8 +24,19 @@ class User(db.Model):
     )
     password: Mapped[str] = mapped_column(String(300))
     active: Mapped[bool] = mapped_column(Boolean(), default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=func.now()
+    )
+    modified_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=func.now()
+    )
 
-    def __init__(self, username: str, email: str, password: str) -> None:
+    def __init__(
+        self,
+        username: str,
+        email: str,
+        password: str,
+    ) -> None:
         """
         Use regex to validate these paramters
         - username: a single word
@@ -31,4 +45,5 @@ class User(db.Model):
         """
         self.username = username
         self.email = email
-        self.password = password
+        self.password = generate_password_hash(password)
+        self.modified_at = datetime.utcnow()
