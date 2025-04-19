@@ -6,10 +6,10 @@ services:
     build:
       context: .
       dockerfile: docker/app/Dockerfile
+    expose:
+      - 5000
     volumes:
       - './src:/opt/code/src'
-    ports:
-      - "8000:5000"
     environment:
       - FLASK_APP=src/apps/__init__.py
     depends_on:
@@ -42,6 +42,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5432:5432
+
+  nginx:
+    container_name: nginx 
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    restart: always
+    ports:
+      - 8000:80
+    depends_on:
+      - users
+
   adminer:
     # image for a database server like PGAdmin
     image: adminer
