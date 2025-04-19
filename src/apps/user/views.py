@@ -1,8 +1,11 @@
-from flask import Blueprint, jsonify
+from flask import jsonify
+from flask_restx import Resource
 
-user = Blueprint("user", __name__)
+from src.apps.user.parsers import api_namespace
 
 
-@user.route("/users/ping")
-def ping_pong():
-    return jsonify({"status": "200 Ok", "message": "pong!"})
+@api_namespace.route("/ping/")
+class PinPong(Resource):
+    @api_namespace.doc("pin_users")
+    def get(self):
+        return jsonify({"status": "200 Ok", "message": "pong!"})

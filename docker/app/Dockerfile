@@ -13,7 +13,7 @@ ENV PATH="/opt/.venv/bin:$PATH"
 
 RUN pip3 install --upgrade pip 
 
-RUN pip3 install uwsgi
+RUN pip3 install uwsgi==2.0.29
 
 COPY requirements /opt/requirements
 RUN pip3 install -r /opt/requirements/dev.txt
@@ -29,8 +29,8 @@ RUN apk add --update python3 curl && \
         rm -rf /var/cache/apk/*
 
 RUN mkdir -p /opt/uwsgi 
-COPY uwsgi.ini /opt/uwsgi/
-COPY start_server.sh /opt/uwsgi/
+COPY docker/app/uwsgi.ini /opt/uwsgi/
+COPY docker/app/start_server.sh /opt/uwsgi/
 
 RUN addgroup -S uwsgi && adduser -H -D -S uwsgi
 USER uwsgi
@@ -40,6 +40,8 @@ COPY --chown=uwsgi:uwsgi --from=compile-image /opt/.venv /opt/.venv
 ENV PATH="/opt/.venv/bin:$PATH"
 
 COPY --chown=uwsgi:uwsgi src/ /opt/code/src
+COPY --chown=uwsgi:uwsgi tests/ /opt/code/tests
+COPY --chown=uwsgi:uwsgi wsgi.py /opt/code/
 
 WORKDIR /opt/code
 

@@ -1,7 +1,8 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_restx import Api
 
-from src.apps.user.views import user
+from src.apps.user.parsers import api_namespace
 from src.utils import BASE_DIR
 
 app = Flask(
@@ -14,10 +15,21 @@ app = Flask(
 app.config.from_object(__name__)
 app.config.from_pyfile("dev.py")
 
-db = SQLAlchemy(app)
+from src.db import db
 
-app.register_blueprint(user)
-from src.apps.user import models
+db.init_app(app)
 
-with app.app_context():
-    db.create_all()
+migrate = Migrate(app, db)
+api = Api(
+    app,
+    version="0.1",
+    title="Doc Saving User Backend API",
+    description="Save and manage documents",
+    prefix="/api/users/",
+)
+# ? import views before adding namespace so that endpoints appears in swagger
+from src.apps.user.views import PinPong
+
+api.add_namespace(api_namespace)
+
+from src.apps.user.models import User

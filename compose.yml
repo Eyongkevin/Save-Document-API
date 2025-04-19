@@ -2,10 +2,10 @@ services:
   users:
     container_name: save-doc-user 
     env_file:
-      - .env
-    build: .
-      # context: .
-      # dockerfile: Dockerfile
+      - .env.prod
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
     volumes:
       - './src:/opt/code/src'
     ports:
@@ -16,13 +16,29 @@ services:
       - users-db 
     links:
       - users-db
+    
+  users-test:
+    container_name: users-test
+    env_file:
+      - .env.test
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - './src:/opt/code/src'
+      - './pytest.ini:/opt/code/pytest.ini'
+    entrypoint: pytest 
+    depends_on:
+      - users-db 
+    links:
+      - users-db
 
   users-db:
     container_name: users-db 
     env_file:
       - .db.env
     build:
-      context: ./db
+      context: ./docker/db
       dockerfile: Dockerfile
     ports:
       - 5432:5432
