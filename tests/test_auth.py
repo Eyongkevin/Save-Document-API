@@ -18,5 +18,6 @@ def test_registration(client):
 
     assert http.client.CREATED == response.status_code
     assert "Successfully registered" == data["message"]
+    assert "success" == data["status"]
     assert data["auth_token"] is not None
     assert response.content_type == "application/json"
