@@ -17,7 +17,7 @@ app.config.from_pyfile("dev.py")
 
 from src.db import db
 
-db.init_app(app)
+# db.init_app(app)
 
 migrate = Migrate(app, db)
 api = Api(

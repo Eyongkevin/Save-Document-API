@@ -12,3 +12,9 @@ def register(username, email, password):
         return user
     except IntegrityError as ex:
         raise PermissionError("User already exists. Please Login.") from ex
+
+
+def fetch_user_by_username(username: str):
+    """Fetch user by username"""
+
+    return User.query.filter_by(username=username).first()
